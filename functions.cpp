@@ -1,14 +1,10 @@
-#include <cstddef>
-#include <fstream>
-#include <ios>
 #include <iostream>
-#include <string>
-#include <vector>
-#include "class.h"
 #include <iomanip>
+#include <fstream>
+#include <vector>
+#include <string>
 
-#define MAX_LINE 1024
-#define REG_MAX 4
+#include "class.h"
 
 Elections::Elections(int regMax, CandNode* head)
     : regMax{regMax}, candHead {head}{ //member init list
@@ -22,6 +18,30 @@ Elections::~Elections() {
     delete[] votesByRegion;
 }
 
+void Elections::readCandidates(ifstream& file) {
+
+    string line{};
+
+    while(getline(file, line)){
+        candidatesName.push_back(line);
+    }
+    candMax = candidatesName.size();
+    sortCand();
+}
+
+void Elections::sortCand() {
+
+    for (int i = 0; i < candMax - 1; i++) {
+        for (int j = 0; j < candMax - i - 1; j++) {
+            if (candidatesName.at(j) > candidatesName.at(j + 1)) {
+                string tmp = candidatesName[j];
+                candidatesName[j] = candidatesName[j + 1];
+                candidatesName[j + 1] = tmp;
+            }
+        }
+    }
+}
+
 void Elections::initMatrix() {
 
     // dynamic votesByRegion matrix alloc
@@ -30,22 +50,25 @@ void Elections::initMatrix() {
     for(int i = 0; i < candMax; ++i) {
         votesByRegion[i] = new int [regMax];
     }
+
+    // initializing it with zero
+
     for(int i = 0; i < candMax; ++i){
         for(int j = 0; j < regMax; ++j){
             votesByRegion[i][j] = 0;
         }
     }
 
-    // put votes to votesByRegion matrix
+    // put vote values to votesByRegion matrix
 
     CandNode* cand = candHead;
 
     if(cand == nullptr)
         return;
 
-    for(int i = 0; i < candMax && cand != nullptr; ++i) {
+    for(int i = 0; i < candMax; ++i) { // TODO nullptr!
         for(int j = 0; j < regMax && cand != nullptr; ++j) {
-            if(cand->name == candidatesName[i] && cand != nullptr){
+            if(cand->name == candidatesName[i]){
                 votesByRegion[i][cand->reg - 1] = cand->votes;
                 cand = cand->next;
             }
@@ -53,12 +76,18 @@ void Elections::initMatrix() {
     }
 }
 
-void Elections::calcRes() {
+void Elections::initVotes() {
 
+    // initializing totalVotes vector with zero
 
     for(int i = 0; i < candMax; ++i) {
         totalVotes.push_back(0);
     }
+}
+
+void Elections::calcRes() { // calculate results
+
+    initVotes();
 
     for(int i = 0 ; i < candMax; ++i){
         for(int j = 0; j < regMax; ++j) {
@@ -67,18 +96,18 @@ void Elections::calcRes() {
     }
 
     winner = 0;
-    for(int i = 0; i < candMax; ++i){
+    for(int i = 1; i < candMax; ++i){
         if(totalVotes[i] > totalVotes[winner])
             winner = i;
     }
+
     total = 0;
     for(auto i: totalVotes){
         total += i;
     }
-
 }
 
-void Elections::print() {
+void Elections::print() { // print tabular format
     cout << setw(36) << setfill('-') << right << "Election Results"
     << setw(20) << setfill('-') << " " << endl;
     cout << "Candidate" << setw(22) << setfill(' ')<< right << "Votes" << endl;
@@ -156,7 +185,20 @@ void CandList::insert(const string& name,
     prev->next = newNode;
 }
 
-void CandList::print() {
+void CandList::remove() {
+    if (empty())
+    {
+        cout << "List is empty !" << endl;
+        return;
+    }
+
+    CandNode* tmp = head;  // save current head
+    head = head->next;       // skip over old head
+    delete tmp;             // delete the old head
+}
+
+#ifdef DEBUG
+void CandList::print() const { // for debug purposes
 
     if(empty()) return;
 
@@ -170,18 +212,7 @@ void CandList::print() {
     
 
 }
-
-void CandList::remove() {
-    if (empty())
-    {
-        cout << "List is empty !" << endl;
-        return;
-    }
-
-    CandNode* tmp = head;  // save current head
-    head = head->next;       // skip over old head
-    delete tmp;             // delete the old head
-}
+#endif
 
 void CandList::readVotes(ifstream& file) {
 
@@ -199,28 +230,21 @@ void CandList::readVotes(ifstream& file) {
 
 }
 
-void Elections::readCandidates(ifstream& file) {
+vector<string> CandList::parseLine(string& line) {
+    vector<string> tokens;
+    // alınan satırın boşluk ile ayrılarak vektöre eklenmesi
+    size_t pos = 0;
+    string token;
+    string delimiter = " ";
 
-    string line{};
-
-    while(getline(file, line)){
-        candidatesName.push_back(line);
+    while ((pos = line.find(delimiter)) != string::npos) {
+        token = line.substr(0, pos);
+        tokens.push_back(token);
+        line.erase(0, pos + delimiter.length());
     }
-    candMax = candidatesName.size();
-    sortCand();
-}
+    tokens.push_back(line);
 
-void Elections::sortCand() {
-
-    for (int i = 0; i < candMax - 1; i++) {
-        for (int j = 0; j < candMax - i - 1; j++) {
-            if (candidatesName.at(j) > candidatesName.at(j + 1)) {
-                string tmp = candidatesName[j];
-                candidatesName[j] = candidatesName[j + 1];
-                candidatesName[j + 1] = tmp;
-            }
-        }
-    }
+    return tokens;
 }
 
 int CandList::regMax() const{
@@ -239,22 +263,4 @@ int CandList::regMax() const{
     }
 
     return regMax;
-}
-
-
-vector<string> CandList::parseLine(string& line) {
-    vector<string> tokens;
-    // alınan satırın boşluk ile ayrılarak vektöre eklenmesi
-    size_t pos = 0;
-    string token;
-    string delimiter = " ";
-
-    while ((pos = line.find(delimiter)) != string::npos) {
-        token = line.substr(0, pos);
-        tokens.push_back(token);
-        line.erase(0, pos + delimiter.length());
-    }
-    tokens.push_back(line);
-
-    return tokens;
 }

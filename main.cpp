@@ -1,18 +1,16 @@
-#include "functions.cpp"
 #include <fstream>
+#include "functions.cpp"
 
 #define VOTE "./dat/vote.dat"
 #define CAND "./dat/cand.dat"
 
 int main() {
 
-
     CandList candList;
 
     ifstream voteFile;
     voteFile.open(VOTE);
 
-    
     candList.readVotes(voteFile);
 
 #ifdef DEBUG
