@@ -18,13 +18,14 @@ bölümdeki her departman kendi oylama sürecini yönetır ve her adayın
 aldığı oyları doğrudan seçim komitesine bildirir.
 
 Veriler iki dosya halinde sunulmaktadır. Bir dosya, örneğin
-candDat.txt, başkanlık makamına aday olan isimlerinden oluşmaktadır.
+`candDat.txt`, başkanlık makamına aday olan isimlerinden oluşmaktadır.
 Dosyadaki adayların isimleri belirli bir sırada değildir. İkinci
-dosyada, örneğin voteData.txt, her satır aşağıdaki biçimde oylama
+dosyada, örneğin `voteData.txt`, her satır aşağıdaki biçimde oylama
 sonuçlarından oluşmaktadır:
 
-adayAdı bölgeNumarasıBuAdayİçinOySayısı
-Örneğin, girdi dosyası şöyle görünür:
+adayAdı bölgeNumarası BuAdayİçinOySayısı
+
+**Örneğin, girdi dosyası şöyle görünür:**
 
 ```text
 Donald 1 23
@@ -43,7 +44,7 @@ yukarıda açıklandığı gibi oy verilerini içeren iki dosya.
 
 **Çıktı:** Seçim sonuçlarının ve kazananın konsol ekranında açıklandığı bir tablo.
 
-## ÖDEV AÇIKLAMASI
+## ödev açıklaması
 
 - Program oylama verilerini bölgelere göre düzenlemelidir.
 - Program ayrıca her adayın aldığı toplam oy sayısını ve seçimde
