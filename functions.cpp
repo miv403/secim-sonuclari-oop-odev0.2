@@ -79,21 +79,21 @@ void Elections::calcRes() {
 }
 
 void Elections::print() {
-    cout << setw(14) << setfill('-') << "Election Results"
-    << setw(14) << setfill('-') << " " << endl;
+    cout << setw(36) << setfill('-') << right << "Election Results"
+    << setw(20) << setfill('-') << " " << endl;
     cout << "Candidate" << setw(22) << setfill(' ')<< right << "Votes" << endl;
 
-    cout << setw(9) << "Name";
-    cout << setw(9) << "Region1";
+    cout << setw(9) << left << "Name";
+    cout << setw(9) << right << "Region1";
     cout << setw(9) << "Region2";
     cout << setw(9) << "Region3";
     cout << setw(9) << "Region4";
     cout << setw(9) << "Total" << endl;
 
-    cout << setw(48) << setfill('-') << "" << endl;
+    cout << setw(55) << setfill('-') << "" << endl;
 
     for(int i = 0; i < candMax; ++i) {
-        cout << setw(9) << setfill(' ') << candidatesName[i];
+        cout << setw(9) << setfill(' ') << left << candidatesName[i];
         for(int j = 0; j < regMax; ++j){
             cout << setw(9) << right << votesByRegion[i][j];
         }

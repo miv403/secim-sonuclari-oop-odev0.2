@@ -14,7 +14,7 @@ int main() {
 
     
     candList.readVotes(voteFile);
-    
+
 #ifdef DEBUG
     candList.print();
 #endif
