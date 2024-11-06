@@ -87,22 +87,24 @@ Yapılacak işlemler sırasıyla şu şekildedir:
 3. `votesByRegion` ve `totalVotes` dizileri oluşturulmalı ve
    ilklenmelidir. Bu işlemden sonra dizilerin örnek görünümleri aşağıdaki gibi olmalıdır.
 
+    ![alt text](./src/image3.png)
+
 4. Oylama verileri `voteDat.txt` dosyasından okunmalı ve
    işlenmelidir. Okuma işlemi tamamlandığında dizilerin örnek
    görünümleri aşağıdaki gibi olmalıdır. `voteDat.txt` isimli dosyada
    yer alacak ilk değerler için aşağıda tabloda verilen değerler
    kullanabilirsiniz.
 
-    ![al](./src/image3.png)
+    ![alt text](./src/image4.png)
 
 5. Sonuçların aldığı toplam oy hesaplanmalıdır. Tüm adaylar için
    aynı işlemler tekrarlandıktan sonra diziler örnek olarak
    aşağıdaki gibi görünmelidir.
 
-    ![alt text](./src/image4.png)
+    ![alt text](./src/image5.png)
 
-6. Sonuçların çıktısını alınmalıdır. Aşağıda konsol ekranı için örnek
-   görünüm verilmektedir. Program çıktısının verilen şekilde
+6. Sonuçların çıktısını alınmalıdır. Aşağıda konsol ekranı için
+   örnek görünüm verilmektedir. Program çıktısının verilen şekilde
    görünmesine özen gösteriniz.
 
 ```console
