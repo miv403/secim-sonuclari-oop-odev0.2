@@ -11,7 +11,8 @@ Elections::Elections(int regMax, CandNode* head)
 
 }
 
-Elections::~Elections() {
+Elections::~Elections() {   // destructor method
+                            // deallocs votesByRegion dynamic matrix
     for(int i = 0; i < candMax; ++i){
         delete[] votesByRegion[i];
     }
@@ -19,6 +20,8 @@ Elections::~Elections() {
 }
 
 void Elections::readCandidates(ifstream& file) {
+    // reads cand.dat file and inserts the list
+    // to candidatesName vector
 
     string line{};
 
@@ -30,7 +33,8 @@ void Elections::readCandidates(ifstream& file) {
 }
 
 void Elections::sortCand() {
-
+    // sorts the candidatesName vector alphabetically
+    // using bubble sort
     for (int i = 0; i < candMax - 1; i++) {
         for (int j = 0; j < candMax - i - 1; j++) {
             if (candidatesName.at(j) > candidatesName.at(j + 1)) {
@@ -51,7 +55,7 @@ void Elections::initMatrix() {
         votesByRegion[i] = new int [regMax];
     }
 
-    // initializing it with zero
+    // initializing votesByRegion matrix with zero
 
     for(int i = 0; i < candMax; ++i){
         for(int j = 0; j < regMax; ++j){
@@ -59,13 +63,13 @@ void Elections::initMatrix() {
         }
     }
 
-    // put vote values to votesByRegion matrix
+    // puts vote values to votesByRegion matrix
 
-    CandNode* cand = candHead;
+    CandNode* cand = candHead; // to walk CandList linked list
 
-    if(cand == nullptr)
+    if(cand == nullptr) // list emptyness check
         return;
-
+        // TODO this block might be optimized!
     for(int i = 0; i < candMax; ++i) { // TODO nullptr!
         for(int j = 0; j < regMax && cand != nullptr; ++j) {
             if(cand->name == candidatesName[i]){
@@ -76,7 +80,7 @@ void Elections::initMatrix() {
     }
 }
 
-void Elections::initVotes() {
+void Elections::initVotes() { // used in Elections::calcRes()
 
     // initializing totalVotes vector with zero
 
@@ -87,7 +91,7 @@ void Elections::initVotes() {
 
 void Elections::calcRes() { // calculate results
 
-    initVotes();
+    initVotes(); // inits totalVotes vector w/0
 
     for(int i = 0 ; i < candMax; ++i){
         for(int j = 0; j < regMax; ++j) {
@@ -95,28 +99,36 @@ void Elections::calcRes() { // calculate results
         }
     }
 
+    // evaluating winning candidate's index
     winner = 0;
     for(int i = 1; i < candMax; ++i){
         if(totalVotes[i] > totalVotes[winner])
             winner = i;
     }
 
+    // evaluating total number of votes
     total = 0;
     for(auto i: totalVotes){
         total += i;
     }
 }
 
-void Elections::print() { // print tabular format
+void Elections::print() { 
+    // printing the matrix tabular format
+    // and printing results
+    // this block is static.
+
     cout << setw(36) << setfill('-') << right << "Election Results"
     << setw(20) << setfill('-') << " " << endl;
     cout << "Candidate" << setw(22) << setfill(' ')<< right << "Votes" << endl;
 
     cout << setw(9) << left << "Name";
-    cout << setw(9) << right << "Region1";
-    cout << setw(9) << "Region2";
-    cout << setw(9) << "Region3";
-    cout << setw(9) << "Region4";
+
+    // FIXME use regMax to proper output
+    for(int i = 1; i <= regMax; ++i) {
+        cout << setw(8) << right << "Region" << i;
+    }
+
     cout << setw(9) << "Total" << endl;
 
     cout << setw(55) << setfill('-') << "" << endl;
@@ -135,15 +147,15 @@ void Elections::print() { // print tabular format
     cout << "Total votes polled: " << total;
 }
 
-CandList::CandList() {
+CandList::CandList() { // initiliazes linked list
     head = nullptr;
 }
 
-CandList::~CandList() {
+CandList::~CandList() { // deallocs the linked list
     while(!empty()) remove();
 }
 
-bool CandList::empty() const {
+bool CandList::empty() const { // emptiness check
     return head == nullptr;
 }
 
@@ -151,6 +163,8 @@ void CandList::insert(const string& name,
                     const int& reg,
                     const int& votes) {
     
+    // inserting new node in alphabetic order
+
     CandNode* newNode = new CandNode;
 
     newNode->name = name;
@@ -179,6 +193,7 @@ void CandList::insert(const string& name,
         else
             break;
     }
+
     // inserting newNode after prev
 
     newNode->next = prev->next;
@@ -216,6 +231,9 @@ void CandList::print() const { // for debug purposes
 
 void CandList::readVotes(ifstream& file) {
 
+    // reads the vote.dat file
+    // and inserts the list to CandList linked list
+
     string line{};
 
     while (getline(file, line)) {
@@ -232,6 +250,7 @@ void CandList::readVotes(ifstream& file) {
 
 vector<string> CandList::parseLine(string& line) {
     vector<string> tokens;
+
     // alınan satırın boşluk ile ayrılarak vektöre eklenmesi
     size_t pos = 0;
     string token;
@@ -249,6 +268,7 @@ vector<string> CandList::parseLine(string& line) {
 
 int CandList::regMax() const{
     
+    // determining maximum region to init suitable matrix
     if(empty()) return 0;
 
     int regMax{};
