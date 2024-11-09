@@ -46,24 +46,24 @@ yukarıda açıklandığı gibi oy verilerini içeren iki dosya.
 
 ## ödev açıklaması
 
-- Program oylama verilerini bölgelere göre düzenlemelidir.
-- Program ayrıca her adayın aldığı toplam oy sayısını ve seçimde
+- [x] Program oylama verilerini bölgelere göre düzenlemelidir.
+- [x] Program ayrıca her adayın aldığı toplam oy sayısını ve seçimde
   kullanılan toplam oyu hesaplamalıdır.
-- Adayların isimleri alfabetık sırada görünmelidir.
-- Bir adayın adının veri türü (bir string) ile oy sayısının veri
+- [x] Adayların isimleri alfabetik sırada görünmelidir.
+- [x] Bir adayın adının veri türü (bir string) ile oy sayısının veri
   türü (bir integer) farklı olduğundan, biri adayların adlarını
   diğeri de oylama verilerini tutmak için iki ayrı diziye ihtıyacımız
   vardır.
-- Adayların adlarını tutan dizi tek boyutlu bir dizidir ve bu
+- [x] Adayların adlarını tutan dizi tek boyutlu bir dizidir ve bu
   dizinin her bir bileşeni bir string’tır.
-- Oylama verilerini tutmak için tek bir iki boyutlu dizi kullanmak
+- [x] Oylama verilerini tutmak için tek bir iki boyutlu dizi kullanmak
   yerine, çıktının sonraki dört sütununu tutmak için iki boyutlu bir
   dizi ve her adayın aldığı toplam oyu tutmak için tek boyutlu bir
   dizi kullanılması gerekmektedir.
-- NOT: Yapılacak tüm alt işlemler fonksiyonlarla gerçeklenmelidir.
-- NOT: Tüm üye değişkenler ve üye fonksiyonlar “class” kullanarak
+- [x] NOT: Yapılacak tüm alt işlemler fonksiyonlarla gerçeklenmelidir.
+- [x] NOT: Tüm üye değişkenler ve üye fonksiyonlar “class” kullanarak
   tanımlanmalıdır.
-- NOT: Hiçbir alt işlem için hazır fonksiyon kullanmayınız!
+- [x] NOT: Hiçbir alt işlem için hazır fonksiyon kullanmayınız!
 
 Yukarıda sözü geçen dizi ve matrisler için örnek görünüm ve isimler
 aşağıdaki şekilde verildiği gibidir.
