@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -6,13 +7,30 @@
 
 #include "class.h"
 
+#define CAND "./dat/cand.dat"
+
 Elections::Elections(int regMax, CandNode* head)
     : regMax{regMax}, candHead {head}{ //member init list
+    
+    ifstream cand;
+    cand.open(CAND);
+    string line;
+    candMax = 0;
+    while(getline(cand,line)) { candMax++; }
 
+    candidatesName = new string[candMax];
+    totalVotes = new int[candMax];
+
+    for(int i = 0; i < candMax; ++i) {
+        totalVotes[i] = 0;
+    }
 }
 
 Elections::~Elections() {   // destructor method
                             // deallocs votesByRegion dynamic matrix
+    delete [] candidatesName;
+    delete [] totalVotes;
+
     for(int i = 0; i < candMax; ++i){
         delete[] votesByRegion[i];
     }
@@ -24,11 +42,10 @@ void Elections::readCandidates(ifstream& file) {
     // to candidatesName vector
 
     string line{};
-
-    while(getline(file, line)){
-        candidatesName.push_back(line);
+    for(size_t i = 0; i < candMax; ++i) {
+        getline(file, line);
+        candidatesName[i] = line;
     }
-    candMax = candidatesName.size();
     sortCand();
 }
 
@@ -37,7 +54,7 @@ void Elections::sortCand() {
     // using bubble sort
     for (int i = 0; i < candMax - 1; i++) {
         for (int j = 0; j < candMax - i - 1; j++) {
-            if (candidatesName.at(j) > candidatesName.at(j + 1)) {
+            if (candidatesName[j] > candidatesName[j + 1]) {
                 string tmp = candidatesName[j];
                 candidatesName[j] = candidatesName[j + 1];
                 candidatesName[j + 1] = tmp;
@@ -84,9 +101,6 @@ void Elections::initVotes() { // used in Elections::calcRes()
 
     // initializing totalVotes vector with zero
 
-    for(int i = 0; i < candMax; ++i) {
-        totalVotes.push_back(0);
-    }
 }
 
 void Elections::calcRes() { // calculate results
@@ -95,7 +109,7 @@ void Elections::calcRes() { // calculate results
 
     for(int i = 0 ; i < candMax; ++i){
         for(int j = 0; j < regMax; ++j) {
-            totalVotes.at(i) += votesByRegion[i][j];
+            totalVotes[i] += votesByRegion[i][j];
         }
     }
 
@@ -108,8 +122,8 @@ void Elections::calcRes() { // calculate results
 
     // evaluating total number of votes
     total = 0;
-    for(auto i: totalVotes){
-        total += i;
+    for(size_t i = 0; i < candMax; ++i) {
+        total += totalVotes[i];
     }
 }
 

@@ -60,7 +60,9 @@ private:
     int candMax;
 
     int ** votesByRegion; // dynamic 2D array
-    vector<string> candidatesName; // candidate name vector
-    vector<int> totalVotes; // total votes for each candidate vector
+    // vector<string> candidatesName0; // candidate name vector
+    string * candidatesName;
+    // vector<int> totalVotes0; // total votes for each candidate vector
+    int * totalVotes;
 
 };
