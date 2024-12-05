@@ -24,6 +24,7 @@ Elections::Elections(int regMax, CandNode* head)
     for(int i = 0; i < candMax; ++i) {
         totalVotes[i] = 0;
     }
+
 }
 
 Elections::~Elections() {   // destructor method
@@ -97,15 +98,7 @@ void Elections::initMatrix() {
     }
 }
 
-void Elections::initVotes() { // used in Elections::calcRes()
-
-    // initializing totalVotes vector with zero
-
-}
-
 void Elections::calcRes() { // calculate results
-
-    initVotes(); // inits totalVotes vector w/0
 
     for(int i = 0 ; i < candMax; ++i){
         for(int j = 0; j < regMax; ++j) {

@@ -36,33 +36,30 @@ public:
 
     int regMax() const;
 
-
 };
 
 class Elections {
 
-public:
-    Elections(int, CandNode*);  // dynamic alloc matrix
-    ~Elections();  // dealloc votesByRegion
+    public:
+        Elections(int, CandNode*);  // dynamic alloc matrix
+        ~Elections();  // dealloc votesByRegion
 
-    void readCandidates(ifstream&);
-    void sortCand();
-    void initMatrix();
-    void initVotes();
-    void calcRes();
-    void print();
+        void readCandidates(ifstream&);
+        void initMatrix();
+        void calcRes();
+        void print();
 
-private:
-    CandNode* candHead;
-    int winner;
-    int total;
-    int regMax;
-    int candMax;
+    private:
+        void sortCand();
 
-    int ** votesByRegion; // dynamic 2D array
-    // vector<string> candidatesName0; // candidate name vector
-    string * candidatesName;
-    // vector<int> totalVotes0; // total votes for each candidate vector
-    int * totalVotes;
+        CandNode* candHead;
+        int winner;
+        int total;
+        int regMax;
+        int candMax;
+
+        int ** votesByRegion; // dynamic 2D array
+        string * candidatesName;
+        int * totalVotes;
 
 };
